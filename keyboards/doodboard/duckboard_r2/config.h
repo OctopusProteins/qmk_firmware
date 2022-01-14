@@ -53,8 +53,13 @@
 #define RGBLED_NUM 8    // Number of LEDs
 #endif
 
+#define RGBLIGHT_ANIMATIONS
+
+
 /* Set 0 if debouncing isn't needed */
 #define DEBOUNCE 5
 
 #define BOOTMAGIC_LITE_ROW 0
 #define BOOTMAGIC_LITE_COLUMN 1
+
+#define USB_POLLING_INTERVAL_MS 1

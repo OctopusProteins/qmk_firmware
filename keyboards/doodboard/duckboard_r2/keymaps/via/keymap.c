@@ -76,7 +76,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_270; }
 
-static uint16_t oled_timer;
+// static uint16_t oled_timer;
 
 // WPM-responsive animation stuff here
 #define IDLE_FRAMES 2
@@ -100,8 +100,10 @@ static void render_anim(void) {
 
     //assumes 1 frame prep stage
     void animation_phase(void) {
+        if (get_current_wpm() != 000) { 
             current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
             oled_write_raw_P(idle[abs((IDLE_FRAMES-1)-current_idle_frame)], ANIM_SIZE);
+        }
     }
 
     if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
@@ -135,21 +137,21 @@ bool oled_task_user(void) {
     read_host_led_state();
     if (last_caps != led_capslock) {
         last_caps = led_capslock;
-        oled_timer = timer_read();
+        // oled_timer = timer_read();
     }
     if (last_num != led_numlock) {
         last_num = led_numlock;
-        oled_timer = timer_read();
+        // oled_timer = timer_read();
     }
     if (last_scr != led_scrolllock) {
         last_scr = led_scrolllock;
-        oled_timer = timer_read();
+        // oled_timer = timer_read();
     }
 
-	if (timer_elapsed(oled_timer) > TIMEOUT_OLED) {
-        oled_off();
-    } else {
-        oled_on();
+	// if (timer_elapsed(oled_timer) > TIMEOUT_OLED) {
+    //     oled_off();
+    // } else {
+    //     oled_on();
     render_anim();
     
 
@@ -188,7 +190,7 @@ bool oled_task_user(void) {
     } else {
         oled_write_P(PSTR("NUM  \n"), false);
     }
-    }
+    // }
     return false;
 }
 #endif
@@ -201,9 +203,9 @@ void keyboard_post_init_user(void) {
   //debug_mouse=true;
 }
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (record->event.pressed) {
-        oled_timer = timer_read();
-    }
-    return true;
-}
+// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+//     if (record->event.pressed) {
+//         oled_timer = timer_read();
+//     }
+//     return true;
+// }
